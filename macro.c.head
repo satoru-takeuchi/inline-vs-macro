@@ -1,0 +1,5 @@
+#define swap(a, b) do { typeof(a) __tmp = a; a = b; b = __tmp; } while (0)
+
+int main(void)
+{
+	int a = 0, b = 1;

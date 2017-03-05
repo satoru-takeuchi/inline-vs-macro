@@ -1,0 +1,45 @@
+#!/bin/bash
+
+LOOP_MAX=10000
+LOOP_DELTA=100
+
+INLINE_SRC=inline.c
+MACRO_SRC=macro.c
+
+function generate_inline_src {
+    local nloop=$1
+
+    rm -f ${INLINE_SRC}
+    cat $INLINE_SRC.head >>$INLINE_SRC
+    awk -v n=$nloop 'BEGIN{for (i=0;i<n;i++) printf("\tswap(&a, &b);\n")}' >>$INLINE_SRC
+    cat swap.c.tail >>$INLINE_SRC
+}
+
+function generate_macro_src {
+    local nloop=$1
+
+    rm -f ${MACRO_SRC}
+    cat $MACRO_SRC.head >>$MACRO_SRC
+    awk -v n=$nloop 'BEGIN{for (i=0;i<n;i++) printf("\tswap(a, b);\n")}' >>$MACRO_SRC
+    cat swap.c.tail >>$MACRO_SRC
+}
+
+# inline
+
+echo "gathering inline data..." >&2
+
+for ((i = 0; i <= $LOOP_MAX; i += $LOOP_DELTA)) ; do
+    echo -n "$i "
+    generate_inline_src $i
+    ( time cc -O2 -o ${INLINE_SRC%.c} ${INLINE_SRC} ) 2>&1 | grep real
+done | awk '{print $1"\t"$3}' | sed -e 's/0m\(.*\)s$/\1/' >inline.result
+
+# macro
+
+echo "gathering macro data..." >&2
+
+for ((i = 0; i <= $LOOP_MAX; i += $LOOP_DELTA)) ; do
+    echo -n "$i "
+    generate_macro_src $i
+    (time cc -O2 -o ${MACRO_SRC%.c} ${MACRO_SRC} ) 2>&1 | grep real
+done | awk '{print $1"\t"$3}' | sed -e 's/0m\(.*\)s$/\1/' >macro.result
