@@ -3,3 +3,5 @@ inline
 macro
 inline.c
 macro.c
+inline.result
+macro.result
