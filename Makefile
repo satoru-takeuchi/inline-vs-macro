@@ -4,4 +4,4 @@ run:
 	./run
 
 clean:
-	rm -f inline macro *.result *~
+	rm -f inline macro *.result *~ inline.c macro.c
