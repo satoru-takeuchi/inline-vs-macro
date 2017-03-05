@@ -17,4 +17,14 @@ Their format is `<# of calls>¥t<time[s]>` for each line.
 
 # Sample result
 
-![alt text](https://github.com/satoru-takeuchi/inline-vs-macro/blob/master/image/inline-vs-macro.png "inline vs macro")
+## gcc 
+
+![alt text](https://github.com/satoru-takeuchi/inline-vs-macro/blob/master/image/inline-vs-macro.png "inline vs macro(gcc)")
+
+## clang
+
+![alt text](https://github.com/satoru-takeuchi/inline-vs-macro/blob/master/image/inline-vs-macro.png "inline vs macro(clang)")
+
+## gcc and clang
+
+![alt text](https://github.com/satoru-takeuchi/inline-vs-macro/blob/master/image/inline-vs-macro.png "inline vs macro(gcc and clang)")
